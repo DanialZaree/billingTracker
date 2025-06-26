@@ -12,7 +12,7 @@ A sleek and responsive web application designed to help you effortlessly manage 
 
 *Assuming `pic.png` is in a public or assets folder. If it's in `src`, you may need to move it for it to be visible on GitHub.*
 
-![Billing Tracker Screenshot](./src/pic.png)
+![Billing Tracker Screenshot](./src/assets/pic.png)
 
 ---
 
