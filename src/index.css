@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 body {
-  background-color: #f3f4f6; /* Equivalent to bg-gray-100 */
+  @apply bg-gray-100 dark:bg-gray-900;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -10,15 +10,19 @@ body {
 
 /* Custom Thin Green Scrollbar */
 ::-webkit-scrollbar {
-    width: 6px;
+  width: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  @apply bg-gray-200 dark:bg-gray-800;
 }
 ::-webkit-scrollbar-thumb {
-    background: #10B981; /* green-500 */
-    border-radius: 6px;
+  @apply bg-green-500 dark:bg-green-600 rounded-md;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #059669; /* green-600 */
+  @apply bg-green-600 dark:bg-green-700;
+}
+
+/* Ensure html also gets dark mode background if needed, though App.jsx handles it */
+html.dark {
+  background-color: #111827; /* Corresponds to dark:bg-gray-900 */
 }

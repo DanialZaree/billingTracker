@@ -24,19 +24,19 @@ const BillFormModal = ({ onAdd, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60">
-      <div className="relative w-full max-w-md p-8 text-gray-800 bg-white shadow-2xl rounded-xl animate-fade-in-up">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-60 dark:bg-opacity-70">
+      <div className="relative w-full max-w-md p-8 text-gray-800 bg-white shadow-2xl dark:bg-gray-800 dark:text-gray-200 rounded-xl animate-fade-in-up">
         <button
           onClick={onClose}
-          className="absolute text-gray-500 top-4 right-4 hover:text-gray-800"
+          className="absolute text-gray-500 top-4 right-4 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100"
         >
           <X />
         </button>
-        <h2 className="mb-6 text-2xl font-bold text-gray-900 font-poppins">
+        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100 font-poppins">
           Add New Bill
         </h2>
         {error && (
-          <p className="p-2 mb-4 text-sm text-red-600 bg-red-100 rounded-md">
+          <p className="p-2 mb-4 text-sm text-red-700 bg-red-100 rounded-md dark:bg-red-900/30 dark:text-red-400">
             {error}
           </p>
         )}
@@ -46,24 +46,29 @@ const BillFormModal = ({ onAdd, onClose }) => {
             placeholder="Bill Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-green-500"
           />
           <input
             type="number"
             placeholder="Amount ($)"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-green-500"
           />
+          {/* Note: Styling date input's calendar icon is tricky and browser-dependent.
+              We'll rely on browser default for dark mode or use ::-webkit-calendar-picker-indicator if needed for more control.
+              For now, basic dark styles are applied.
+          */}
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
             min="2025-01-01"
             max="2025-12-31"
-            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 dark:focus:ring-green-500"
+            style={{ colorScheme: 'dark' }} // Helps with date picker theme in some browsers
           />
-          <p className="pt-2 mb-3 text-gray-600">Select an Icon</p>
+          <p className="pt-2 mb-3 text-gray-600 dark:text-gray-400">Select an Icon</p>
           <div className="grid grid-cols-5 gap-3 pr-2 overflow-y-auto sm:grid-cols-8 max-h-48">
             {Object.keys(ICONS).map((iconName) => (
               <button
@@ -72,8 +77,8 @@ const BillFormModal = ({ onAdd, onClose }) => {
                 onClick={() => setSelectedIcon(iconName)}
                 className={`p-3 rounded-full transition-all duration-200 flex items-center justify-center ${
                   selectedIcon === iconName
-                    ? "bg-green-500 text-white scale-110"
-                    : "bg-gray-200 text-gray-600 hover:bg-gray-300 cursor-pointer"
+                    ? "bg-green-500 text-white scale-110 dark:bg-green-600"
+                    : "bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 cursor-pointer"
                 }`}
               >
                 <IconComponent name={iconName} />
@@ -82,7 +87,7 @@ const BillFormModal = ({ onAdd, onClose }) => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-3 font-bold text-white transition-transform transform bg-green-600 rounded-md cursor-pointer hover:bg-green-700 hover:scale-105 font-poppins"
+            className="w-full px-4 py-3 font-bold text-white transition-transform transform bg-green-600 rounded-md cursor-pointer hover:bg-green-700 hover:scale-105 dark:bg-green-700 dark:hover:bg-green-600 font-poppins"
           >
             Add Bill
           </button>

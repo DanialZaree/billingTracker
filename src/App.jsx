@@ -18,6 +18,15 @@ registerChartComponents();
 // --- Main App Component ---
 export default function App() {
   // --- State Management ---
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode) {
+      return JSON.parse(savedMode);
+    }
+    // Default to system preference if no preference is saved
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
   const [bills, setBills] = useState(() => {
     try {
       const localData = localStorage.getItem("billingAppBills");
@@ -32,6 +41,16 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const importFileRef = useRef(null);
 
+  // --- Dark Mode Effect ---
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+  }, [isDarkMode]);
+
   // --- Data Persistence ---
   useEffect(() => {
     try {
@@ -42,6 +61,10 @@ export default function App() {
   }, [bills]);
 
   // --- Event Handlers ---
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   const addBill = (bill) => {
     setBills((prevBills) => [...prevBills, { ...bill, id: Date.now() }]);
     setIsModalOpen(false);
@@ -175,9 +198,14 @@ export default function App() {
   }, [bills, selectedView, filteredBills]);
 
   return (
-    <div className="min-h-screen font-sans text-gray-800 bg-gray-100 ">
+    <div className="min-h-screen font-sans text-gray-800 bg-gray-100 dark:bg-gray-900 dark:text-gray-200">
       <div className="max-w-5xl p-4 mx-auto sm:p-8 ">
-        <Header onExport={handleExport} onImportClick={handleImportClick} />
+        <Header
+          onExport={handleExport}
+          onImportClick={handleImportClick}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+        />
         <input
           type="file"
           ref={importFileRef}
@@ -190,7 +218,7 @@ export default function App() {
             selectedView={selectedView}
             setSelectedView={setSelectedView}
           />
-          <BillChart chartData={chartData} selectedView={selectedView} />
+          <BillChart chartData={chartData} selectedView={selectedView} isDarkMode={isDarkMode} />
           <KeyStatistics total={totalAmount} count={filteredBills.length} />
           <BillList
             bills={filteredBills}
@@ -201,7 +229,7 @@ export default function App() {
       </div>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="fixed flex items-center justify-center w-16 h-16 text-white transition-transform transform bg-green-600 rounded-full shadow-lg cursor-pointer bottom-8 right-8 hover:bg-green-700 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-green-300"
+        className="fixed flex items-center justify-center w-16 h-16 text-white transition-transform transform bg-green-500 rounded-full shadow-lg cursor-pointer bottom-8 right-8 hover:bg-green-600 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-700"
         aria-label="Add new bill"
       >
         <PlusCircle size={32} />
