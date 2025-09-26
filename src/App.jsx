@@ -3,6 +3,7 @@ import { PlusCircle } from "lucide-react";
 
 // Util Imports
 import { registerChartComponents } from "./utils/chartConfig.jsx";
+import { validateBillsData } from "./utils/validation.jsx";
 
 // Component Imports
 import Header from "./components/Header";
@@ -76,20 +77,21 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
-        const importedBills = JSON.parse(e.target.result);
-        // Basic validation
-        if (Array.isArray(importedBills)) {
-          setBills(importedBills);
+        const importedData = JSON.parse(e.target.result);
+        const { isValid, error } = validateBillsData(importedData);
+
+        if (isValid) {
+          setBills(importedData);
         } else {
-          alert("Invalid JSON format. Please import a valid bill array.");
+          alert(`Import failed: ${error}`);
         }
       } catch (error) {
-        alert("Failed to parse JSON file.");
+        alert("Failed to parse JSON file. Ensure it's a valid JSON.");
         console.error("Failed to parse JSON file:", error);
       }
     };
     reader.readAsText(file);
-    event.target.value = null;
+    event.target.value = null; // Reset file input
   };
 
   // --- Data Filtering & Memoization ---

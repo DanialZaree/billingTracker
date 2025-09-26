@@ -20,6 +20,10 @@ const BillFormModal = ({ onAdd, onClose }) => {
       setError("Amount must be positive.");
       return;
     }
+    if (parseFloat(amount) > 1000000) {
+      setError("Amount cannot exceed $1,000,000.");
+      return;
+    }
     onAdd({ name, amount, date, icon: selectedIcon });
   };
 
