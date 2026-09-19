@@ -2,23 +2,57 @@
 @import "tailwindcss";
 
 body {
-  background-color: #f3f4f6; /* Equivalent to bg-gray-100 */
-  font-family: 'Poppins', sans-serif;
+  background-color: #dce1e9;
+  color: #0f172a;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Custom Thin Green Scrollbar */
+/* Touch-friendly horizontal scrolling */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Smooth subtle scrollbars */
 ::-webkit-scrollbar {
-    width: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: #10B981; /* green-500 */
-    border-radius: 6px;
+  background: #94a3b8;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #059669; /* green-600 */
+  background: #64748b;
+}
+
+/* Keyframe animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
